@@ -1,0 +1,108 @@
+/* Import Inconsolata font */
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+
+/* Global styles */
+body {
+    font-family: 'Inconsolata', monospace;
+    background-color: #AAABB8;
+    color: #25274D;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    color: #25274D;
+    font-weight: 700;
+    margin: 20px 0;
+    text-align: center;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.5s;
+}
+
+#navbar {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px; /* Padding commun pour les deux états */
+    transition: all 0.5s;
+}
+
+#navbar.default {
+    background-color: transparent; /* Pas de couleur de fond */
+}
+
+#navbar.scrolled {
+    background-color: rgba(37, 39, 77, 0.8); /* Couleur de fond avec opacité */
+    border-radius: 50px;
+    margin: 20px auto;
+    width: 33%;
+    max-width: 90%;
+}
+
+#navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+#navbar ul li {
+    margin: 0 15px;
+}
+
+#navbar ul li a {
+    color: #fff;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+#navbar ul li a:hover {
+    background-color: #2E9CCA;
+    border-radius: 5px;
+}
+
+section {
+    padding: 100px 20px;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Specific styles for sections */
+.intro {
+    background: #464866;
+    color: #fff;
+}
+
+.example {
+    background: #AAABB8;
+    color: #25274D;
+}
+
+.resources {
+    background: #29648A;
+    color: #fff;
+}
+
+footer {
+    background-color: #25274D;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    position: relative;
+}

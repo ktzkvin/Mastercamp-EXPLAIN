@@ -1,0 +1,26 @@
+.intro {
+    background: #464866; /* Gris foncé */
+    padding: 100px 20px;
+    color: #fff;
+}
+
+.example {
+    background: #AAABB8; /* Gris clair */
+    padding: 100px 20px;
+    color: #25274D;
+}
+
+.resources {
+    background: #29648A; /* Bleu moyen */
+    padding: 100px 20px;
+    color: #fff;
+}
+
+footer {
+    background-color: #25274D; /* Bleu foncé */
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    position: relative;
+}

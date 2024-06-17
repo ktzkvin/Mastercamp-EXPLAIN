@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - My Patent Classification App</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#example">Example</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="{% url 'import_patent' %}">Import Patent</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>© 2024 My Patent Classification App. All rights reserved.</p>
+    </footer>
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
