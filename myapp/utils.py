@@ -1,13 +1,29 @@
-from .models import ClassificationResult
+import shap
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
 
 def classify_patent(patent):
-    # Logique de classification du brevet (à implémenter)
-    predicted_category = "Example Category"  # Remplacez par la sortie réelle de votre modèle ML
-    explanation = "Example explanation"  # Remplacez par l'explication générée par votre modèle ML
+    tokenizer = AutoTokenizer.from_pretrained('anferico/bert-for-patents')
+    model = AutoModelForSequenceClassification.from_pretrained('anferico/bert-for-patents')
+    model.eval()
 
-    classification_result = ClassificationResult.objects.create(
+    text = patent.description
+    inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True)
+    outputs = model(**inputs)
+    logits = outputs.logits
+    predicted_category = logits.argmax().item()
+
+    # Utiliser SHAP pour l'explication
+    explainer = shap.Explainer(model, tokenizer)
+    shap_values = explainer(text)
+
+    explanation = shap_values.data
+
+    classification_result = ClassificationResult(
         patent=patent,
         predicted_category=predicted_category,
         explanation=explanation
     )
+    classification_result.save()
     return classification_result

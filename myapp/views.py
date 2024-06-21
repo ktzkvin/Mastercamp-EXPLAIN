@@ -26,7 +26,8 @@ def classification_result(request, pk):
             return redirect('classification_result', pk=pk)
     else:
         form = FeedbackForm(instance=classification_result)
-    return render(request, 'myapp/classification_result.html', {'classification_result': classification_result, 'form': form})
+    return render(request, 'myapp/classification_result.html',
+                  {'classification_result': classification_result, 'form': form})
 
 
 def home(request):

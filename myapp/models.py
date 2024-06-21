@@ -18,7 +18,7 @@ class Patent(models.Model):
 class ClassificationResult(models.Model):
     patent = models.ForeignKey(Patent, on_delete=models.CASCADE)
     predicted_category = models.CharField(max_length=255)
-    explanation = models.TextField()
+    explanation = models.JSONField()  # Stocker les explications comme un champ JSON
     feedback = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
