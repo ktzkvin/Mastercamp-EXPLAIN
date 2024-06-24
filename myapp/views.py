@@ -10,9 +10,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 
 # Charger les gros fichiers une seule fois au démarrage du serveur
-SAMPLE_DF = joblib.load('sample_df_with_embeddings.pkl')
-LOG_REG_MODEL = joblib.load('log_reg_model_multilabel.pkl')
-SCALER = joblib.load('scaler.pkl')
+#SAMPLE_DF = joblib.load('sample_df_with_embeddings.pkl')
+#LOG_REG_MODEL = joblib.load('log_reg_model_multilabel.pkl')
+#SCALER = joblib.load('scaler.pkl')
 
 def import_patent(request):
     if request.method == 'POST':
