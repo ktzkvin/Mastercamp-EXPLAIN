@@ -13,8 +13,9 @@
     <header>
         <nav id="navbar">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#example">Example</a></li>
+                <a href="#home" class="logo">
+                <img src="{% static 'images/logo.png' %}"  class="navbar-logo">
+            </a>
                 <li><a href="#resources">Resources</a></li>
                 <li><a href="{% url 'import_patent' %}">Import Patent</a></li>
             </ul>

@@ -1,5 +1,5 @@
 .intro {
-    background: #464866; /* Gris foncé */
+    background: linear-gradient(to bottom, #343588, #66b3ff); /* Dégradé de haut en bas */
     padding: 100px 20px;
     color: #fff;
 }

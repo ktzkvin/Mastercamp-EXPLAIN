@@ -82,11 +82,6 @@ section {
     flex-direction: column;
 }
 
-/* Specific styles for sections */
-.intro {
-    background: #464866;
-    color: #fff;
-}
 
 .example {
     background: #AAABB8;
@@ -105,4 +100,41 @@ footer {
     padding: 20px 0;
     width: 100%;
     position: relative;
+}
+.navbar-logo {
+    height: 30px; /* Ajustez la hauteur selon vos besoins */
+    width: auto; /* Maintient le ratio de l'image */
+}
+
+.welcome-text {
+    font-size: 40px;
+    font-family: Dubai;
+    text-align: left;
+    margin-bottom: 100px; /* Marge en bas pour l'espace */
+    margin-right: 450px;
+}
+
+.welcome-text2 {
+    font-size: 25px;
+    font-family: "Gill Sans MT";
+    text-align: left;
+    margin-bottom: 20px; /* Marge en bas pour l'espace */
+}
+.button {
+    display: inline-block; /* Affiche les boutons en ligne */
+    padding: 10px ;
+    font-family: Dubai;
+    background-color: #294c9d; /* Couleur de fond initiale du bouton */
+    color: #fff; /* Couleur du texte */
+    text-decoration: none;
+    border: none; /* Supprime le bord du lien */
+    border-radius: 25px; /* Arrondi des coins */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre par défaut */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transition fluide pour la couleur de fond et l'ombre */
+    margin-bottom: 15px;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre au survol */
 }
