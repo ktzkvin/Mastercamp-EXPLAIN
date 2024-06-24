@@ -13,7 +13,7 @@
                 <th>Classe</th>
                 <th>Probabilité</th>
             </tr>
-            {% for label, prob in explanation['predict_proba'] %}
+            {% for label, prob in explanation.predict_proba|default_if_none:'' %}
             <tr>
                 <td>{{ label }}</td>
                 <td>{{ prob }}</td>
@@ -28,7 +28,7 @@
                 <th>Feature</th>
                 <th>Value</th>
             </tr>
-            {% for feature, value in explanation['feature_weights'] %}
+            {% for feature, value in explanation.feature_weights|default_if_none:'' %}
             <tr>
                 <td style="color: {% if value > 0 %}green{% else %}red{% endif %};">{{ feature }}</td>
                 <td>{{ value }}</td>
@@ -38,18 +38,13 @@
     </div>
 </div>
 
-<h2>Texte surligné</h2>
-<div class="highlighted-text">
-    {{ explanation.highlighted_text|safe }}
-</div>
-
 <h2>Résumé des explications</h2>
 <p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
 <ul>
-    {% for feature, value in explanation['feature_weights'] %}
+    {% for feature, value in explanation.feature_weights|default_if_none:'' %}
     <li><strong>{{ feature }}</strong> : {{ value }}</li>
     {% endfor %}
 </ul>
-<p><strong>Classe prédite :</strong> {{ explanation['predicted_class'] }}</p>
-<p><strong>Probabilité associée :</strong> {{ explanation['predicted_prob'] }}</p>
+<p><strong>Classe prédite :</strong> {{ explanation.predicted_class|default_if_none:'' }}</p>
+<p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob|default_if_none:'' }}</p>
 {% endblock %}
