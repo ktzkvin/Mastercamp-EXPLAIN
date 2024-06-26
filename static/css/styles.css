@@ -61,8 +61,7 @@ header {
 }
 
 #navbar ul li a:hover {
-    background-color: #2E9CCA;
-    border-radius: 5px;
+    transform: scale(1.1)
 }
 
 section {

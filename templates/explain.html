@@ -1,8 +1,13 @@
-{% extends 'myapp/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Explication LIME{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/explain.css') }}">
+{% endblock %}
+
 {% block content %}
+<div class ="explain-body">
 <h1>Explication LIME</h1>
 <p><strong>Explication pour l'échantillon {{ index }} :</strong></p>
 <div class="lime-explanation">
@@ -13,7 +18,7 @@
                 <th>Classe</th>
                 <th>Probabilité</th>
             </tr>
-            {% for label, prob in explanation.predict_proba|default_if_none:'' %}
+            {% for label, prob in explanation.predict_proba %}
             <tr>
                 <td>{{ label }}</td>
                 <td>{{ prob }}</td>
@@ -28,7 +33,7 @@
                 <th>Feature</th>
                 <th>Value</th>
             </tr>
-            {% for feature, value in explanation.feature_weights|default_if_none:'' %}
+            {% for feature, value in explanation.feature_weights %}
             <tr>
                 <td style="color: {% if value > 0 %}green{% else %}red{% endif %};">{{ feature }}</td>
                 <td>{{ value }}</td>
@@ -37,14 +42,14 @@
         </table>
     </div>
 </div>
-
 <h2>Résumé des explications</h2>
 <p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
 <ul>
-    {% for feature, value in explanation.feature_weights|default_if_none:'' %}
+    {% for feature, value in explanation.feature_weights %}
     <li><strong>{{ feature }}</strong> : {{ value }}</li>
     {% endfor %}
 </ul>
-<p><strong>Classe prédite :</strong> {{ explanation.predicted_class|default_if_none:'' }}</p>
-<p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob|default_if_none:'' }}</p>
+<p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
+<p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
+    </div>
 {% endblock %}
