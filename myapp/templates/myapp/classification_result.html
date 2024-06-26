@@ -2,7 +2,10 @@
 
 {% block title %}Classification Result{% endblock %}
 
+
 {% block content %}
+<section id="result" class="intro">
+<div class ="result-container">
 <h1>Classification Result</h1>
 <p><strong>Patent:</strong> {{ classification_result.patent.application_number }}</p>
 <p><strong>Predicted Category:</strong> {{ classification_result.predicted_category }}</p>
@@ -19,9 +22,13 @@
     {{ form.as_p }}
     <button type="submit">Submit Feedback</button>
 </form>
+    </div>
+    </section>
 {% endblock %}
 
 {% block extra_head %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/result.css' %}">
 <script>
     // Exemple de code JavaScript pour surligner les segments de texte influents
     document.addEventListener('DOMContentLoaded', function () {
