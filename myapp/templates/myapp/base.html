@@ -7,16 +7,36 @@
     {% load static %}
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    {% block extra_head %}{% endblock %}
+    {% block extra_head %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+    {% endblock %}
+
 </head>
 <body>
     <header>
         <nav id="navbar">
             <ul>
-                <a href="#home" class="logo">
+                <a href="{% url 'home' %}#home" class="logo">
                 <img src="{% static 'images/logo.png' %}"  class="navbar-logo">
+<<<<<<< HEAD
             </a>
+=======
+                </a>
+                <li><a href="{% url 'home' %}#resources">Resources</a></li>
+                <li><a href="{% url 'import_patent' %}">Import Patent</a></li>
+>>>>>>> 04a88452eb4ee063d2049abd60cd3ec9cd5aedb1
             </ul>
+
         </nav>
     </header>
     <main>
