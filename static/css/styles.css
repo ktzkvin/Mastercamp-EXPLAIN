@@ -34,21 +34,14 @@ header {
 #navbar {
     display: flex;
     justify-content: center;
-    padding: 10px 20px; /* Padding commun pour les deux états */
+    padding: 10px 20px;
     transition: all 0.5s;
 }
 
 #navbar.default {
-    background-color: transparent; /* Pas de couleur de fond */
+    background-color: transparent;
 }
 
-#navbar.scrolled {
-    background-color: rgba(37, 39, 77, 0.8); /* Couleur de fond avec opacité */
-    border-radius: 50px;
-    margin: 20px auto;
-    width: 33%;
-    max-width: 90%;
-}
 
 #navbar ul {
     list-style: none;
@@ -68,8 +61,7 @@ header {
 }
 
 #navbar ul li a:hover {
-    background-color: #2E9CCA;
-    border-radius: 5px;
+    transform: scale(1.1)
 }
 
 section {
@@ -82,11 +74,6 @@ section {
     flex-direction: column;
 }
 
-/* Specific styles for sections */
-.intro {
-    background: #464866;
-    color: #fff;
-}
 
 .example {
     background: #AAABB8;
@@ -99,10 +86,57 @@ section {
 }
 
 footer {
-    background-color: #25274D;
+    background: linear-gradient(to bottom, #343588, #1a1b49);
     color: #fff;
     text-align: center;
     padding: 20px 0;
     width: 100%;
     position: relative;
 }
+.navbar-logo {
+    height: 22px;
+    width: auto;
+}
+
+.welcome-text {
+    position : absolute;
+    font-size: 45px;
+    font-family: Dubai;
+    text-align: left;
+    margin-right: 750px;
+    top : 150px;
+}
+
+.welcome-text2 {
+    font-size: 25px;
+    font-family: "Gill Sans MT";
+    text-align: left;
+    margin-bottom: 20px;
+}
+.button {
+    display: inline-block;
+    padding: 10px ;
+    font-family: Dubai;
+    background-color: #294c9d;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.boutons {
+    display : flex;
+    position : absolute;
+    top : 390px;
+    left : 750px;
+    gap : 10px;
+}
+

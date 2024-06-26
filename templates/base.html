@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Patent Classification App{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_head %}
+    <!-- Inclure le lien vers home.css si nécessaire -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    {% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <ul>
+                <li><a href="{{ url_for('home') }}#home" class="logo">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="navbar-logo">
+                </a></li>
+                <!-- Ajoutez d'autres liens de navigation ici si nécessaire -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>© 2024 My Patent Classification App. All rights reserved.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>

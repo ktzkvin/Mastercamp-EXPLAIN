@@ -1,23 +1,23 @@
 .intro {
-    background: #464866; /* Gris foncé */
+    background: linear-gradient(to bottom, #66b3ff, #343588);
     padding: 100px 20px;
     color: #fff;
 }
 
 .example {
-    background: #AAABB8; /* Gris clair */
+    background: #AAABB8;
     padding: 100px 20px;
     color: #25274D;
 }
 
 .resources {
-    background: #29648A; /* Bleu moyen */
+    background: #29648A;
     padding: 100px 20px;
     color: #fff;
 }
 
 footer {
-    background-color: #25274D; /* Bleu foncé */
+    background-color: #25274D;
     color: #fff;
     text-align: center;
     padding: 20px 0;

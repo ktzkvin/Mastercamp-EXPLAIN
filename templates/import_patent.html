@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Patent{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/import.css') }}">
+{% endblock %}
+
+{% block content %}
+<section id="import" class="intro">
+    <section id="import-conteneur" class="conteneur">
+        <h1 class="import-title">Import Patent Description</h1>
+        <form method="post">
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+</section>
+{% endblock %}
