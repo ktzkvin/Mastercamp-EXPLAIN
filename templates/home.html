@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 
 {% block title %}Home Page{% endblock %}
 
@@ -14,7 +14,45 @@
     <div class="boutons">
         <div class="bouton-import"><a href="{{ url_for('import_patent') }}" class="button">Importer un brevet</a></div>
         <a href="{{ url_for('classification_result') }}" class="button">Résultats de classification</a>
-         <a href="{{ url_for('explain_view', index=0) }}" class ="button">Explication pour l'echantillon 0</a>
+        <a href="{{ url_for('explain_view', index=0) }}" class ="button">Explication pour l'echantillon 0</a>
     </div>
 </section>
+
+<h2>Sample DataFrame</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Numéro d'application</th>
+            <th>CPC</th>
+            <th>Claim</th>
+            <th>Description</th>
+            <th>Infos Essentielles</th>
+            <th>Embeddings</th>
+            <th>Labels</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in df_records %}
+        <tr>
+            <td>{{ record["Numéro d'application"] }}</td>
+            <td>{{ record["CPC"] }}</td>
+            <td>{{ record["claim"] }}</td>
+            <td class="truncate">{{ record["description"] }}</td>
+            <td class="truncate">{{ record["infos_essentielles"] }}</td>
+            <td>{{ record["embeddings"] }}</td>
+            <td>{{ record["labels"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if page > 1 %}
+    <a href="{{ url_for('home', page=page-1) }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page }} of {{ total_pages }}</span>
+    {% if page < total_pages %}
+    <a href="{{ url_for('home', page=page+1) }}">Next</a>
+    {% endif %}
+</div>
 {% endblock %}

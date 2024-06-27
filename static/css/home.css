@@ -24,3 +24,41 @@ footer {
     width: 100%;
     position: relative;
 }
+
+ table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;  /* Adjust as needed */
+    }
+    .pagination {
+        margin: 20px 0;
+        text-align: center;
+    }
+    .pagination a {
+        margin: 0 5px;
+        padding: 5px 10px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        color: #007bff;
+    }
+    .pagination a:hover {
+        background-color: #007bff;
+        color: white;
+    }
+    .pagination span {
+        margin: 0 5px;
+        padding: 5px 10px;
+    }

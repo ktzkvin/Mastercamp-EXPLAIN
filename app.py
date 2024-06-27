@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import joblib
 import lime
 import lime.lime_tabular
@@ -68,9 +68,34 @@ def extract_important_words(description, feature_weights):
         word_weights.append(segment_weights)
     return word_weights
 
+
+def truncate_text(text, max_length=100):
+    if isinstance(text, list):
+        text = ' '.join(text)
+    if len(text) > max_length:
+        return text[:max_length] + '...'
+    return text
+
+
 @app.route('/')
 def home():
-    return render_template('home.html')
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(sample_df) + per_page - 1) // per_page  # Calculate total pages
+
+    df_subset = sample_df.iloc[start:end]
+    df_records = df_subset.to_dict(orient='records')
+
+    # Truncate descriptions and infos_essentielles
+    for record in df_records:
+        record['description'] = truncate_text(record['description'], max_length=100)
+        record['infos_essentielles'] = truncate_text(record['infos_essentielles'], max_length=100)
+        record['claim'] = truncate_text(record['claim'], max_length=100)
+
+    return render_template('home.html', df_records=df_records, page=page, total_pages=total_pages)
+
 
 @app.route('/import_patent')
 def import_patent():
