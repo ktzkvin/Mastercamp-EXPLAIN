@@ -1,5 +1,38 @@
-.explain-body{
-    background: linear-gradient(to bottom, #66b3ff, #343588);
-    padding: 100px 20px;
-    color: #fff;
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+span {
+    padding: 2px;
+    margin: 2px;
+    display: inline-block;
+}
+
+.lime-explanation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.lime-prediction, .lime-weights {
+    width: 45%;
 }

@@ -5,7 +5,7 @@
 {% block content %}
 <section id="home" class="intro">
     <div class="welcome-text">
-        <p><strong>Welcome to <br> our patent classification <br> app!</strong></p>
+        <p><strong>Welcome to <br> our patent classification <br> app !</strong></p>
         <div class="welcome-text2">
             <p>Use the links to import<br> a patent description or view <br> the classification results.</p>
         </div>
@@ -14,7 +14,7 @@
     <div class="boutons">
         <div class="bouton-import"><a href="{{ url_for('import_patent') }}" class="button">Importer un brevet</a></div>
         <a href="{{ url_for('classification_result') }}" class="button">Résultats de classification</a>
-         <a href="{{ url_for('explain_view', index=0) }}" class ="button">Explanation for sample 0</a>
+         <a href="{{ url_for('explain_view', index=0) }}" class ="button">Explication pour l'echantillon 0</a>
     </div>
 </section>
 {% endblock %}
