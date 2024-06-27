@@ -4,52 +4,66 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/explain.css') }}">
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+        .scrollable {
+            max-height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class ="explain-body">
-<h1>Explication LIME</h1>
-<p><strong>Explication pour l'échantillon {{ index }} :</strong></p>
-<div class="lime-explanation">
-    <div class="lime-prediction">
-        <h2>Prediction probabilities</h2>
-        <table>
-            <tr>
-                <th>Classe</th>
-                <th>Probabilité</th>
-            </tr>
-            {% for label, prob in explanation.predict_proba %}
-            <tr>
-                <td>{{ label }}</td>
-                <td>{{ prob }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+<div class="explain-body">
+    <h1>Explication LIME</h1>
+    <p><strong>Brevet n°{{ explanation.application_number }} :</strong></p>
+    <div class="lime-explanation">
+        <div class="lime-prediction">
+            <h2>Prediction probabilities</h2>
+            <table>
+                <tr>
+                    <th>Classe</th>
+                    <th>Probabilité</th>
+                </tr>
+                {% for label, prob in explanation.predict_proba %}
+                <tr>
+                    <td>{{ label }}</td>
+                    <td>{{ prob }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="lime-weights">
+            <h2>Features importance</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Value</th>
+                </tr>
+                {% for feature, value in explanation.feature_weights %}
+                <tr>
+                    <td style="color: {% if value > 0 %}green{% else %}red{% endif %};">{{ feature }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-    <div class="lime-weights">
-        <h2>Features importance</h2>
-        <table>
-            <tr>
-                <th>Feature</th>
-                <th>Value</th>
-            </tr>
-            {% for feature, value in explanation.feature_weights %}
-            <tr>
-                <td style="color: {% if value > 0 %}green{% else %}red{% endif %};">{{ feature }}</td>
-                <td>{{ value }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+    <h2>Résumé des explications</h2>
+    <p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
+    <ul>
+        {% for feature, value in explanation.feature_weights %}
+        <li><strong>{{ feature }}</strong> : {{ value }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
+    <p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
+
+    <h2>Infos Essentielles</h2>
+    <div class="scrollable">
+        <p>{{ explanation.description }}</p>
     </div>
 </div>
-<h2>Résumé des explications</h2>
-<p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
-<ul>
-    {% for feature, value in explanation.feature_weights %}
-    <li><strong>{{ feature }}</strong> : {{ value }}</li>
-    {% endfor %}
-</ul>
-<p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
-<p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
-    </div>
 {% endblock %}
