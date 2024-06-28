@@ -8,17 +8,13 @@
         .highlight {
             background-color: yellow;
         }
-        .scrollable {
-            max-height: 300px;
-            overflow-y: scroll;
-        }
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="explain-body">
     <h1>Explication LIME</h1>
-    <p><strong>Brevet n°{{ explanation.application_number }} :</strong></p>
+    <p><strong>Explication pour le brevet n°{{ explanation.application_number }} :</strong></p>
     <div class="lime-explanation">
         <div class="lime-prediction">
             <h2>Prediction probabilities</h2>
@@ -61,9 +57,27 @@
     <p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
     <p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
 
-    <h2>Infos Essentielles</h2>
-    <div class="scrollable">
-        <p>{{ explanation.description }}</p>
+    <h2>Description</h2>
+    <div class="scroll-box">
+        {% for segment in explanation.important_words %}
+            {% for word, weight in segment %}
+                <span class="highlight" style="background-color: rgba(255, 255, 0, {{ weight | float }});">
+                    {{ word }}
+                </span>
+            {% endfor %}
+            <br>
+        {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_body %}
+<style>
+.scroll-box {
+    max-height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+</style>
 {% endblock %}
