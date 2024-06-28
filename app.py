@@ -68,14 +68,12 @@ def extract_important_words(description, feature_weights):
         word_weights.append(segment_weights)
     return word_weights
 
-
 def truncate_text(text, max_length=100):
     if isinstance(text, list):
         text = ' '.join(text)
     if len(text) > max_length:
         return text[:max_length] + '...'
     return text
-
 
 @app.route('/')
 def home():
@@ -88,6 +86,10 @@ def home():
     df_subset = sample_df.iloc[start:end]
     df_records = df_subset.to_dict(orient='records')
 
+    # Add index to each record
+    for idx, record in enumerate(df_records, start=start):
+        record['index'] = idx
+
     # Truncate descriptions and infos_essentielles
     for record in df_records:
         record['description'] = truncate_text(record['description'], max_length=100)
@@ -95,6 +97,7 @@ def home():
         record['claim'] = truncate_text(record['claim'], max_length=100)
 
     return render_template('home.html', df_records=df_records, page=page, total_pages=total_pages)
+
 
 
 @app.route('/import_patent')
