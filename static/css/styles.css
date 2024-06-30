@@ -115,8 +115,9 @@ footer {
 }
 .button {
     display: inline-block;
-    padding: 10px ;
+    padding: 15px 10px;
     font-family: Dubai;
+    font-size: 20px;
     background-color: #294c9d;
     color: #fff;
     text-decoration: none;

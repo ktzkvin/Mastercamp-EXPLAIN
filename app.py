@@ -9,12 +9,11 @@ from sklearn.linear_model import LogisticRegression
 
 app = Flask(__name__)
 
-# Charger les données et les modèles une seule fois au démarrage de l'application
 sample_df = joblib.load('sample_df_with_updated_embeddings.pkl')
 log_reg_model = joblib.load('log_reg_model_balanced.pkl')
 scaler = joblib.load('scaler_balanced.pkl')
 
-# Fonction pour générer une explication LIME
+
 def generate_lime_explanation(index):
     selected_sample = sample_df.iloc[index]
     application_number = selected_sample["Numéro d'application"]
@@ -47,16 +46,18 @@ def generate_lime_explanation(index):
     explanation = {
         'application_number': application_number,
         'description': description,
-        'predict_proba': [(log_reg_model.classes_[i], prob) for i, prob in enumerate(exp.predict_proba[0])] if len(exp.predict_proba.shape) > 1 else [(log_reg_model.classes_[0], exp.predict_proba)],
+        'predict_proba': [(log_reg_model.classes_[i], prob) for i, prob in enumerate(exp.predict_proba[0])] if len(
+            exp.predict_proba.shape) > 1 else [(log_reg_model.classes_[0], exp.predict_proba)],
         'feature_weights': feature_weights,
-        'predicted_class': log_reg_model.classes_[np.argmax(exp.predict_proba[0])] if len(exp.predict_proba.shape) > 1 else log_reg_model.classes_[0],
+        'predicted_class': log_reg_model.classes_[np.argmax(exp.predict_proba[0])] if len(
+            exp.predict_proba.shape) > 1 else log_reg_model.classes_[0],
         'predicted_prob': max(exp.predict_proba[0]) if len(exp.predict_proba.shape) > 1 else exp.predict_proba,
         'important_words': important_words
     }
 
     return explanation
 
-# Fonction pour extraire les mots importants
+
 def extract_important_words(description, feature_weights):
     word_weights = []
     for segment in description:
@@ -68,6 +69,7 @@ def extract_important_words(description, feature_weights):
         word_weights.append(segment_weights)
     return word_weights
 
+
 def truncate_text(text, max_length=100):
     if isinstance(text, list):
         text = ' '.join(text)
@@ -75,34 +77,46 @@ def truncate_text(text, max_length=100):
         return text[:max_length] + '...'
     return text
 
+
 @app.route('/')
 def home():
     page = request.args.get('page', 1, type=int)
+    search_query = request.args.get('search', '', type=str)
+    reset = request.args.get('reset', None)
+
+    if reset:
+        search_query = ''
+
+    if search_query:
+        sample_df["Numéro d'application"] = sample_df["Numéro d'application"].astype(str).fillna('')
+        df_filtered = sample_df[sample_df["Numéro d'application"].str.contains(search_query)]
+    else:
+        df_filtered = sample_df
+
     per_page = 10
     start = (page - 1) * per_page
     end = start + per_page
-    total_pages = (len(sample_df) + per_page - 1) // per_page  # Calculate total pages
+    total_pages = (len(df_filtered) + per_page - 1) // per_page
 
-    df_subset = sample_df.iloc[start:end]
+    df_subset = df_filtered.iloc[start:end]
     df_records = df_subset.to_dict(orient='records')
 
-    # Add index to each record
     for idx, record in enumerate(df_records, start=start):
         record['index'] = idx
 
-    # Truncate descriptions and infos_essentielles
     for record in df_records:
         record['description'] = truncate_text(record['description'], max_length=100)
         record['infos_essentielles'] = truncate_text(record['infos_essentielles'], max_length=100)
         record['claim'] = truncate_text(record['claim'], max_length=100)
 
-    return render_template('home.html', df_records=df_records, page=page, total_pages=total_pages)
-
+    return render_template('home.html', df_records=df_records, page=page, total_pages=total_pages,
+                           search_query=search_query)
 
 
 @app.route('/import_patent')
 def import_patent():
     return render_template('import_patent.html')
+
 
 @app.route('/classification_result')
 def classification_result():
@@ -113,10 +127,12 @@ def classification_result():
     }
     return render_template('classification_result.html', classification_result=example_classification_result)
 
+
 @app.route('/explain/<int:index>')
 def explain_view(index):
     explanation = generate_lime_explanation(index)
     return render_template('explain.html', index=index, explanation=explanation)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

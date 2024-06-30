@@ -5,23 +5,34 @@
 {% block content %}
 <section id="home" class="intro">
     <div class="welcome-text">
-        <p><strong>Welcome to <br> our patent classification <br> app !</strong></p>
+        <p><strong>Bienvenue sur<br> notre site de  <br> classification de brevets </strong></p>
         <div class="welcome-text2">
-            <p>Use the links to import<br> a patent description or view <br> the classification results.</p>
+            <p>Utilisez le lien suivant pour <br>importer un brevet.</p>
         </div>
     </div>
 
     <div class="boutons">
         <div class="bouton-import"><a href="{{ url_for('import_patent') }}" class="button">Importer un brevet</a></div>
-        <a href="{{ url_for('classification_result') }}" class="button">Résultats de classification</a>
     </div>
 </section>
 
 
 <h2>Sample DataFrame</h2>
+
+<div class="search-section">
+    <div class="formulaire-recherche">
+        <form method="GET" action="{{ url_for('home') }}" class="search-form">
+            <label for="search">Rechercher par numéro d'application : <br></label>
+            <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Numéro d'application">
+            <button type="submit">Rechercher</button>
+            <button type="submit" name="reset" value="true">Réinitialiser</button>
+        </form>
+    </div>
+</div>
 <table border="1">
     <thead>
         <tr>
+            <th>Index</th>
             <th>Numéro d'application</th>
             <th>CPC</th>
             <th>Infos Essentielles</th>
@@ -30,6 +41,7 @@
     <tbody>
         {% for record in df_records %}
         <tr>
+            <td>{{ record["index"] }}</td>
             <td><a href="{{ url_for('explain_view', index=record.index) }}" class="application-number">{{ record["Numéro d'application"] }}</a></td>
             <td>{{ record["CPC"] }}</td>
             <td class="truncate">{{ record["infos_essentielles"] }}</td>
@@ -40,13 +52,13 @@
 
 <div class="pagination">
     {% if page > 1 %}
-    <a href="{{ url_for('home', page=1) }}">&laquo; First</a>
-    <a href="{{ url_for('home', page=page-1) }}">Previous</a>
+    <a href="{{ url_for('home', page=1, search=search_query) }}">&laquo; First</a>
+    <a href="{{ url_for('home', page=page-1, search=search_query) }}">Previous</a>
     {% endif %}
     <span>Page {{ page }} of {{ total_pages }}</span>
     {% if page < total_pages %}
-    <a href="{{ url_for('home', page=page+1) }}">Next</a>
-    <a href="{{ url_for('home', page=total_pages) }}">Last &raquo;</a>
+    <a href="{{ url_for('home', page=page+1, search=search_query) }}">Next</a>
+    <a href="{{ url_for('home', page=total_pages, search=search_query) }}">Last &raquo;</a>
     {% endif %}
 </div>
 {% endblock %}
