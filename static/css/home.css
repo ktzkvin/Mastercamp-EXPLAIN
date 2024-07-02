@@ -1,8 +1,11 @@
 .intro {
-    background: linear-gradient(to bottom, #66b3ff, #343588);
-    padding: 100px 20px;
+    background: linear-gradient(to right, #66b3ff, #343588);
+    max-width: 100%;
+    padding: 10% 5%;
     color: #fff;
+
 }
+
 
 .example {
     background: #AAABB8;
@@ -24,3 +27,148 @@ footer {
     width: 100%;
     position: relative;
 }
+.table-title{
+    color : white;
+    font-family: Dubai;
+    font-size: 35px;
+    position : absolute;
+    top : 1100px;
+}
+ table {
+        position : absolute;
+        font-family: Dubai;
+        width: 80%;
+        margin: 0 auto;
+        top : 1250px;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+    th {
+        background-color: #233b75;
+        color : white;
+    }
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+    }
+    .pagination {
+        position : absolute;
+        top : 1940px;
+        text-align: center;
+    }
+    .pagination a {
+        font-family: Dubai;
+        margin: 0 5px;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #fff;
+        transition: transform 0.3s ease, font-size 0.3s ease;
+    }
+    .pagination a:hover {
+        color: white;
+        transform: scale(1.2); /    font-size: 1.2em;
+    }
+    .pagination span {
+        font-family: span;
+        margin: 0 5px;
+        padding: 5px 10px;
+    }
+
+.application-number {
+    text-decoration: underline;
+    transition: transform 0.3s ease, font-size 0.3s ease;
+}
+
+.application-number:hover {
+    transform: scale(1.2);  /
+    font-size: 1.2em;
+}
+
+.search-section {
+    max-width : 380px;
+    font-family: Dubai;
+    background-color: #233b75 ;
+    color : white;
+    border-radius : 40px;
+    position : absolute;
+    top : 1180px;
+    left: 200px;
+}
+
+.formulaire-recherche {
+    margin-left: 25px;
+    margin-right: 15px;
+}
+
+.search-button{
+    cursor: pointer;
+}
+
+.reset-button{
+    cursor: pointer;
+}
+
+.search-button{
+    cursor: pointer;
+}
+
+.reset-button{
+    cursor: pointer;
+}
+
+.bouton-import{
+    margin-top : 5vb;
+}
+
+
+
+.table-sample{
+    background: linear-gradient(to right, #66b3ff, #343588);
+
+}
+
+.accueil-patent{
+    position : absolute;
+    left : 750px;
+    top: 30px;
+    width : 65%;
+}
+
+
+.robot_gif{
+    top : 350px;
+    left : 1085px;
+    position : absolute;
+    height: 200px;
+    width : 350px;
+}
+
+.welcome_robot_gif{
+    top : 40px;
+    right : 1210px;
+    position : absolute;
+    height: 200px;
+    width : 350px;
+}
+
+.crafting_robot_gif{
+     top : 67vb;
+    left : 63vb;
+    position : absolute;
+    height: 200px;
+    width : 350px;
+}
+
+
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+

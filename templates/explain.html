@@ -8,16 +8,19 @@
         .highlight {
             background-color: yellow;
         }
+        .scrollable {
+            max-height: 300px;
+            overflow-y: scroll;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="explain-body">
-    <h1>Explication LIME</h1>
-    <p><strong>Explication pour le brevet n°{{ explanation.application_number }} :</strong></p>
-    <div class="lime-explanation">
+    <h1 class ="explication-lime"> <br>Explication LIME</h1>
+    <p class ="brevet-numero"><strong>Informations du brevet n°{{ explanation.application_number }} :</strong></p>
         <div class="lime-prediction">
-            <h2>Prediction probabilities</h2>
+            <h2>PROBABILITÉ DES PRÉDICTIONS</h2>
             <table>
                 <tr>
                     <th>Classe</th>
@@ -32,11 +35,11 @@
             </table>
         </div>
         <div class="lime-weights">
-            <h2>Features importance</h2>
+            <h2>IMPORTANCE DES FONCTIONNALITÉS</h2>
             <table>
                 <tr>
-                    <th>Feature</th>
-                    <th>Value</th>
+                    <th>Fonctionnalité</th>
+                    <th>Valeur</th>
                 </tr>
                 {% for feature, value in explanation.feature_weights %}
                 <tr>
@@ -46,38 +49,21 @@
                 {% endfor %}
             </table>
         </div>
-    </div>
-    <h2>Résumé des explications</h2>
-    <p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
-    <ul>
-        {% for feature, value in explanation.feature_weights %}
-        <li><strong>{{ feature }}</strong> : {{ value }}</li>
-        {% endfor %}
-    </ul>
-    <p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
-    <p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
-
-    <h2>Description</h2>
-    <div class="scroll-box">
-        {% for segment in explanation.important_words %}
-            {% for word, weight in segment %}
-                <span class="highlight" style="background-color: rgba(255, 255, 0, {{ weight | float }});">
-                    {{ word }}
-                </span>
+    <div class ="resume-explications">
+        <h2>RÉSUMÉ DES EXPLICATIONS</h2>
+        <p>Les caractéristiques suivantes ont eu le plus grand impact sur la prédiction :</p>
+        <ul>
+            {% for feature, value in explanation.feature_weights %}
+            <li><strong>{{ feature }}</strong> : {{ value }}</li>
             {% endfor %}
-            <br>
-        {% endfor %}
+        </ul>
+        <p><strong>Classe prédite :</strong> {{ explanation.predicted_class }}</p>
+        <p><strong>Probabilité associée :</strong> {{ explanation.predicted_prob }}</p>
+    </div>
+
+    <h2>INFORMATIONS ESSENTIELLES</h2>
+    <div class="scrollable">
+        <p class ="infos-essentielles">{{ explanation.description }}</p>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_body %}
-<style>
-.scroll-box {
-    max-height: 400px;
-    overflow-y: scroll;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-</style>
 {% endblock %}

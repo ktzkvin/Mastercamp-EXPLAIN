@@ -100,17 +100,19 @@ footer {
 
 .welcome-text {
     position : absolute;
-    font-size: 45px;
+    font-size: 3vw;
     font-family: Dubai;
     text-align: left;
     margin-right: 750px;
     top : 150px;
+    line-height: 110%;
 }
 
 .welcome-text2 {
-    font-size: 25px;
+    font-size: 2vw;
     font-family: "Gill Sans MT";
     text-align: left;
+    line-height: 110%;
     margin-bottom: 20px;
 }
 .button {
@@ -124,7 +126,7 @@ footer {
     border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 15px;
+
 }
 
 .button:hover {
@@ -135,8 +137,7 @@ footer {
 .boutons {
     display : flex;
     position : absolute;
-    top : 390px;
-    left : 750px;
+    top : 490px;
+    left : 700px;
     gap : 10px;
 }
-

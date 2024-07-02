@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block extra_head %}
-    <!-- Inclure le lien vers home.css si nécessaire -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     {% endblock %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {

@@ -2,19 +2,79 @@
 
 {% block title %}Home Page{% endblock %}
 
+{% block extra_head %}
+<!-- Inclure Font Awesome et la feuille de style home.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
 {% block content %}
 <section id="home" class="intro">
     <div class="welcome-text">
-        <p><strong>Welcome to <br> our patent classification <br> app!</strong></p>
+        <p><strong>Bienvenue sur<br> notre site de  <br> classification de brevets </strong></p>
         <div class="welcome-text2">
-            <p>Use the links to import<br> a patent description or view <br> the classification results.</p>
+            <p>Si vous souhaitez participer, utilisez le <br>bouton suivant pour importer un brevet.</p>
         </div>
     </div>
-
+    <img src="static/images/home_1.png", class ="accueil-patent">
+    <img src="static/images/welcome_robot.gif", class ="welcome_robot_gif">
+    <img src="static/images/robot_gif.gif", class ="robot_gif">
+    <img src="static/images/crafting_robot.gif", class ="crafting_robot_gif">
     <div class="boutons">
         <div class="bouton-import"><a href="{{ url_for('import_patent') }}" class="button">Importer un brevet</a></div>
-        <a href="{{ url_for('classification_result') }}" class="button">Résultats de classification</a>
-         <a href="{{ url_for('explain_view', index=0) }}" class ="button">Explanation for sample 0</a>
+    </div>
+</section>
+
+<section id="dataframe" class="table-sample">
+    <h2 class="table-title">Tableau des caractéristiques principales des brevets</h2>
+
+    <div class="search-section">
+        <div class="formulaire-recherche">
+            <form method="GET" action="{{ url_for('home') }}" class="search-form">
+                <label for="search">Rechercher par numéro d'application : <br></label>
+                <div class="search-input-container">
+                    <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Numéro d'application">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button type="submit" name="reset" value="true" class="reset-button">
+                       <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Numéro d'application</th>
+                <th>CPC</th>
+                <th>Infos Essentielles</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in df_records %}
+            <tr>
+                <td>{{ record["index"] }}</td>
+                <td><a href="{{ url_for('explain_view', index=record.index) }}" class="application-number">{{ record["Numéro d'application"] }}</a></td>
+                <td>{{ record["CPC"] }}</td>
+                <td class="truncate">{{ record["infos_essentielles"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('home', page=1, search=search_query) }}">&laquo; First</a>
+        <a href="{{ url_for('home', page=page-1, search=search_query) }}">&lt; Previous</a>
+        {% endif %}
+        <span>Page {{ page }} of {{ total_pages }}</span>
+        {% if page < total_pages %}
+        <a href="{{ url_for('home', page=page+1, search=search_query) }}">Next &gt;</a>
+        <a href="{{ url_for('home', page=total_pages, search=search_query) }}">Last &raquo;</a>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
