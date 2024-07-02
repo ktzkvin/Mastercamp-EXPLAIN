@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 import joblib
 import lime
 import lime.lime_tabular
@@ -6,13 +6,29 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'txt'}
+
+
+
+# Créer le dossier 'uploads' s'il n'existe pas
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 sample_df = joblib.load('sample_df_with_updated_embeddings.pkl')
 log_reg_model = joblib.load('log_reg_model_balanced.pkl')
 scaler = joblib.load('scaler_balanced.pkl')
 
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def generate_lime_explanation(index):
     selected_sample = sample_df.iloc[index]
@@ -71,12 +87,13 @@ def extract_important_words(description, feature_weights):
 
 
 def truncate_text(text, max_length=100):
+    if pd.isna(text):
+        return ''
     if isinstance(text, list):
         text = ' '.join(text)
     if len(text) > max_length:
         return text[:max_length] + '...'
     return text
-
 
 @app.route('/')
 def home():
@@ -105,17 +122,50 @@ def home():
         record['index'] = idx
 
     for record in df_records:
-        record['description'] = truncate_text(record['description'], max_length=100)
-        record['infos_essentielles'] = truncate_text(record['infos_essentielles'], max_length=100)
-        record['claim'] = truncate_text(record['claim'], max_length=100)
+        record['description'] = truncate_text(record.get('description', ''), max_length=100)
+        record['infos_essentielles'] = truncate_text(record.get('infos_essentielles', ''), max_length=100)
+        record['claim'] = truncate_text(record.get('claim', ''), max_length=100)
 
     return render_template('home.html', df_records=df_records, page=page, total_pages=total_pages,
                            search_query=search_query)
 
-
 @app.route('/import_patent')
 def import_patent():
     return render_template('import_patent.html')
+
+@app.route('/upload_patent', methods=['POST'])
+def upload_patent():
+    global sample_df
+    application_number = request.form['application_number']
+    cpc = request.form['cpc']
+    file = request.files['file']
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(file_path)
+
+        with open(file_path, 'r') as f:
+            infos_essentielles = f.read()
+
+        if application_number not in sample_df["Numéro d'application"].values:
+            new_record = pd.DataFrame([{
+                "Numéro d'application": application_number,
+                "CPC": cpc,
+                "infos_essentielles": infos_essentielles,
+                # Ajoutez ici toute autre colonne nécessaire
+            }])
+            sample_df = pd.concat([sample_df, new_record], ignore_index=True)
+            sample_df.to_pickle('sample_df_with_updated_embeddings.pkl')  # Sauvegarder les nouvelles données
+
+            flash('Brevet importé avec succès!', 'success')
+        else:
+            flash('Le numéro d\'application existe déjà.', 'danger')
+    else:
+        flash('Format de fichier non supporté.', 'danger')
+
+    return redirect(url_for('import_patent'))
+
 
 
 @app.route('/classification_result')
