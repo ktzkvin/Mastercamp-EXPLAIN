@@ -1,4 +1,5 @@
 body {
+
         background: linear-gradient(to right, #66b3ff, #343588);
     font-family: Arial, sans-serif;
     margin: 10px;
@@ -9,6 +10,7 @@ body {
     font-family: Dubai;
     color:white;
     padding-bottom: 25px;
+
 }
 
 textarea {
@@ -37,9 +39,12 @@ span {
 
 
 
+
+
 .lime-prediction, .lime-weights {
     width: 45%;
 }
+
 
 .lime-prediction{
         text-align: center;
@@ -88,3 +93,4 @@ h2{
     top:15%;
     left: 15%;
 }
+
