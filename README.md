@@ -1,60 +1,137 @@
+# PatentSense – Semantic Classification and Explanation of Patent Claims
 
-# 📊 Projet Mastercamp : EXPLAIN
+## ⚙️ Technical Context
 
+Patent classification is a cornerstone of intellectual property analysis, yet automating this task at scale remains a challenge. Legal and technical documents such as patent *claims* are verbose, intricate, and demand nuanced understanding.
 
+**PatentSense** is an NLP-powered app for:
+1. **Classifying patent claims into CPC (Cooperative Patent Classification) categories**
+2. **Highlighting tokens that influenced the prediction**
+3. **Summarizing claims using transformer-based models**
 
-## 🖊️ Auteurs 
+---
 
-- [Nicolas Lahimasy](https://github.com/nicolaslahimasy)
-- [Kevin Kurtz](https://github.com/ktzkvin)
-- [Hugo Heng](https://github.com/HugoHeng)
-- [Thomas Huang](https://github.com/YungSDMS)
-- [Emma Gsell](https://github.com/cemmagique)
+## 🧠 Method Overview
 
-## 💾 Installation 
+### 1. Input Handling
 
-### Prérequis :
-- Python 3.8 ou supérieur
-- Flask pour l'interface web
-- Ainsi que toutes les extensions requises pour lancer certaines parties du projet.
+Users can interact via:
+- A **text box**: paste a single claim
+- A **CSV upload**: bulk classification, one claim per row
 
-### Installation du projet :
+> Each claim is cleaned of HTML tags before processing.
 
-Installer le [fichier](https://www.swisstransfer.com/d/1feaa3b2-10e3-4861-9c9d-04790897f521) contenant les données de chaque brevet
+---
 
-Toutes les commandes à suivre sont à exécuter dans le terminal de votre IDE.
+### 2. Classification Pipeline
 
-#### Clôner le depôt github :
+- Claims are tokenized and embedded using a **fine-tuned RoBERTa encoder**
+- A **multi-label classifier** predicts one or more CPC top-level sections:
+
+  | Code | Category |
+  |------|----------|
+  | A | Human Necessities |
+  | B | Performing Operations, Transporting |
+  | C | Chemistry, Metallurgy |
+  | D | Textiles, Paper |
+  | E | Fixed Constructions |
+  | F | Mechanical Engineering |
+  | G | Physics |
+  | H | Electricity |
+  | Y | General Tagging |
+
+- The classifier returns binary predictions across 9 dimensions
+
+---
+
+### 3. Explanation & Visual Highlighting
+
+- A **non-finetuned BERT** model extracts token-level embeddings
+- Importance is computed as the **L2 norm** of each embedding
+- Words are visualized in a heatmap style using `matplotlib`, where brighter color = higher influence
+
+---
+
+### 4. Abstractive Summarization
+
+- Claims are first **shortened** via sentence selection based on token salience
+- A **Pegasus transformer model** summarizes the condensed version
+- Useful for patent analysts to get a quick overview of long, technical text
+
+---
+
+## 🧪 Core Dependencies
+
+- `transformers`, `torch`, `nltk`, `streamlit`
+- `scikit-learn`, `joblib`, `beautifulsoup4`
+- `matplotlib`, `sentencepiece`, `shap`
+
+To install, make sure your `requirements.txt` includes:
+
 ```bash
-    git clone https://github.com/ktzkvin/MastercampEXPLAIN
+pip install torch==2.2.2+cu118 torchvision==0.17.2+cu118 torchaudio==2.2.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 ```
 
-#### Naviguer dans le répertoire `MastercampEXPLAIN` :
+The rest of the dependencies are standard pip packages, installable with:
+
 ```bash
-    cd MastercampEXPLAIN
+pip install -r requirements.txt
 ```
 
-#### Pour lancer l'application, exécuter la commande suivante :
+---
+
+## 💻 Run Locally
+
+### 1. Clone the repo
+
 ```bash
-    python app.py
+git clone https://github.com/your-user/patentsense.git
+cd patentsense
 ```
-#### Puis cliquez sur le lien vers le serveur créé.
 
-## 🛠️ Fonctionnalités
+### 2. Create & activate a virtual environment
 
-### 1. Page d'accueil
-Sur la page d'accueil, vous pouvez retrouver un bouton redirigeant vers la page pour importer votre propre brevet, ainsi que un tableau des caractéristiques principales de chaque brevet sous la forme d'un tableau de 10 lignes pour 5000 pages. Vous pouvez cliquer sur un brevet pour voir ses informations en détail.
+```bash
+python -m venv venv
+# Windows
+.venv\Scripts\Activate
 
+# Unix-like
+source venv/bin/activate
+```
 
-### 2. Page d'import de brevet
-Sur cette page, vous pouvez importer un brevet en renseignant son numéro d'application, son code CPC et un fichier.txt contenant ses informations essentielles.
+### 3. Install dependencies
 
+```bash
+# Install PyTorch with CUDA 11.8 support
+pip install torch==2.2.2+cu118 torchvision==0.17.2+cu118 torchaudio==2.2.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 
-### 3. Page d'explication de brevet
-Cette page est la page la plus importante du projet, vous pourrez y trouver, en cliquant sur un numéro d'application de brevet de la page d'accueil, la description complète d'un brevet ainsi que la classe attribuée par la prédiction effectuée au préalable. Vous y trouverez aussi une description brève renseignant le sujet principal du brevet en question.
+# Install all project dependencies
+pip install -r requirements.txt
 
+# Download the pre-trained CPC model (~400MB)
+pip install gdown
+gdown https://drive.google.com/uc?id=1K5OKo7DGb2h6lR1C-iA4ftFgr9MqO3L2
+```
 
+### 4. Launch the app
 
+```bash
+streamlit run streamlit-main.py
+```
 
+---
 
+## 📂 Model Files
 
+Make sure `model.pkl` (the CPC classifier) is placed in the project root directory. If you're using a CPU-only machine, ensure it's saved in a format that doesn't require CUDA to load.
+
+---
+
+## ✍️ Author
+
+- Kevin Kurtz [@ktzkvin](https://github.com/ktzkvin)
+
+---
+
+**PatentSense brings interpretability and classification to the heart of innovation, letting machines read patents like experts, only faster.**
