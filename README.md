@@ -128,10 +128,4 @@ Make sure `model.pkl` (the CPC classifier) is placed in the project root directo
 
 ---
 
-## ✍️ Author
-
-- Kevin Kurtz [@ktzkvin](https://github.com/ktzkvin)
-
----
-
 **PatentSense brings interpretability and classification to the heart of innovation, letting machines read patents like experts, only faster.**
