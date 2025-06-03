@@ -259,15 +259,12 @@ def shorten_text(text, max_length=1024):
     if not text.strip():
         return ""
 
-    # Split text into sentences
-    sentences = sent_tokenize(text)
-
     # Extract tokens, token importances, sentences, and sentence importances
-    tokens, token_importance, _, _ = extract_features_and_importance(text)
+    _, _, sentences, sentence_importance = extract_features_and_importance(text)
 
     # Sort sentences by their importance
-    sorted_indices = np.argsort(token_importance)[::-1]
-    ranked_sentences = [sentences[i] for i in sorted_indices if i < len(sentences)]
+    sorted_indices = np.argsort(sentence_importance)[::-1]
+    ranked_sentences = [sentences[i] for i in sorted_indices]
 
     # Select sentences until the text is short enough
     short_text = ""
